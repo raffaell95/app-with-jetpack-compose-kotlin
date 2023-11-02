@@ -57,8 +57,8 @@ fun MovieItem(
                  model = ImageRequest.Builder(LocalContext.current)
                      .data(imageUrl)
                      .crossfade(true)
-                     .error(R.drawable.ic_launcher_background)
-                     .placeholder(R.drawable.ic_launcher_background)
+                     .error(R.drawable.ic_error_image)
+                     .placeholder(R.drawable.ic_placeholder)
                      .build(),
                  contentDescription = "",
                  contentScale = ContentScale.FillHeight,

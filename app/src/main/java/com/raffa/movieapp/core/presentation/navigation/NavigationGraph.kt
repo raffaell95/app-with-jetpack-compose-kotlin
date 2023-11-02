@@ -3,15 +3,23 @@ package com.raffa.movieapp.core.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.raffa.movieapp.core.util.Constants
+import com.raffa.movieapp.movie_detail_feature.presentation.MovieDetailSreen
+import com.raffa.movieapp.movie_detail_feature.presentation.MovieDetailViewModel
 import com.raffa.movieapp.movie_popular_feature.presentation.MoviePopularScreen
 import com.raffa.movieapp.movie_popular_feature.presentation.MoviePopularViewModel
+import com.raffa.movieapp.search_movie_feature.presentation.MovieSearchEvent
+import com.raffa.movieapp.search_movie_feature.presentation.MovieSearchScreen
+import com.raffa.movieapp.search_movie_feature.presentation.MovieSearchViewModel
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navHostController: NavHostController) {
     NavHost(
-        navController = navController,
+        navController = navHostController,
         startDestination = BottonNavItem.MoviePopular.route
     ){
         composable(BottonNavItem.MoviePopular.route){
@@ -21,12 +29,48 @@ fun NavigationGraph(navController: NavHostController) {
 
             MoviePopularScreen(
                 uiState = uiState,
-                navigateToDetailMovie = {}
+                navigateToDetailMovie = {
+                    navHostController.navigate(BottonNavItem.MovieDetail.passMovieId(movieId = it))
+                }
             )
         }
 
-        composable(BottonNavItem.MovieSearch.route){}
+        composable(BottonNavItem.MovieSearch.route){
+
+            val viewModel: MovieSearchViewModel = hiltViewModel()
+            val uiState = viewModel.uiState
+            val onEvent: (MovieSearchEvent) -> Unit = viewModel::event
+            val onFetch: (String) -> Unit = viewModel::fetch
+
+            MovieSearchScreen(
+                uiState = uiState,
+                onEvent = onEvent,
+                onFetch = onFetch,
+                navigateToDetailMovie = {
+                    navHostController.navigate(BottonNavItem.MovieDetail.passMovieId(movieId = it))
+                }
+            )
+        }
 
         composable(BottonNavItem.MovieFavorite.route){}
+
+        composable(
+            route = BottonNavItem.MovieDetail.route,
+            arguments = listOf(
+                navArgument(Constants.MOVIE_DETAIL_ARGUMENT_KEY){
+                    type = NavType.IntType
+                    defaultValue = 0
+                }
+            )
+        ){
+            val viewModel: MovieDetailViewModel = hiltViewModel()
+            val uiState = viewModel.uiState
+            val getMovieDetail = viewModel::getMovieDetail
+            MovieDetailSreen(
+                id = it.arguments?.getInt(Constants.MOVIE_DETAIL_ARGUMENT_KEY),
+                uiState = uiState,
+                getMovieDetail = getMovieDetail
+            )
+        }
     }
 }

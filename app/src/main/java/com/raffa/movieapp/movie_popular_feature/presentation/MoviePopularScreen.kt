@@ -30,7 +30,7 @@ fun MoviePopularScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = coil.compose.base.R.string.default_popup_window_title),
+                        text = stringResource(R.string.popular_movies),
                         color = white
                     )
                 },
