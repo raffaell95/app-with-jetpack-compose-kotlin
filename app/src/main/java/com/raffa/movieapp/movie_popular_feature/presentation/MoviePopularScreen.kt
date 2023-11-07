@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.raffa.movieapp.R
+import com.raffa.movieapp.core.presentation.components.common.MovieAppBar
 import com.raffa.movieapp.core.util.UtilFunctions
 import com.raffa.movieapp.movie_popular_feature.presentation.components.MovieContent
 
@@ -26,17 +27,7 @@ fun MoviePopularScreen(
     Scaffold(
 
         topBar = {
-
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.popular_movies),
-                        color = white
-                    )
-                },
-                backgroundColor = black
-            )
-
+            MovieAppBar(title = R.string.popular_movies)
         },
         content = { paddingValues ->
             MovieContent(

@@ -2,6 +2,7 @@ package com.raffa.movieapp.core.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,6 +11,8 @@ import androidx.navigation.navArgument
 import com.raffa.movieapp.core.util.Constants
 import com.raffa.movieapp.movie_detail_feature.presentation.MovieDetailSreen
 import com.raffa.movieapp.movie_detail_feature.presentation.MovieDetailViewModel
+import com.raffa.movieapp.movie_favorite_feature.presentation.MovieFavoriteScreen
+import com.raffa.movieapp.movie_favorite_feature.presentation.MovieFavoriteViewModel
 import com.raffa.movieapp.movie_popular_feature.presentation.MoviePopularScreen
 import com.raffa.movieapp.movie_popular_feature.presentation.MoviePopularViewModel
 import com.raffa.movieapp.search_movie_feature.presentation.MovieSearchEvent
@@ -30,7 +33,7 @@ fun NavigationGraph(navHostController: NavHostController) {
             MoviePopularScreen(
                 uiState = uiState,
                 navigateToDetailMovie = {
-                    navHostController.navigate(BottonNavItem.MovieDetail.passMovieId(movieId = it))
+                    navHostController.navigate(DetailScreenNav.DetailScreen.passMovieId(movieId = it))
                 }
             )
         }
@@ -47,15 +50,26 @@ fun NavigationGraph(navHostController: NavHostController) {
                 onEvent = onEvent,
                 onFetch = onFetch,
                 navigateToDetailMovie = {
-                    navHostController.navigate(BottonNavItem.MovieDetail.passMovieId(movieId = it))
+                    navHostController.navigate(DetailScreenNav.DetailScreen.passMovieId(movieId = it))
                 }
             )
         }
 
-        composable(BottonNavItem.MovieFavorite.route){}
+        composable(BottonNavItem.MovieFavorite.route){
+            val viewModel: MovieFavoriteViewModel = hiltViewModel()
+            val uiState = viewModel.uiState.movies
+                .collectAsStateWithLifecycle(initialValue = emptyList())
+
+            MovieFavoriteScreen(
+                movies = uiState.value,
+                navigateToDetailMovie = {
+                    navHostController.navigate(DetailScreenNav.DetailScreen.passMovieId(movieId = it))
+                }
+            )
+        }
 
         composable(
-            route = BottonNavItem.MovieDetail.route,
+            route = DetailScreenNav.DetailScreen.route,
             arguments = listOf(
                 navArgument(Constants.MOVIE_DETAIL_ARGUMENT_KEY){
                     type = NavType.IntType
@@ -65,11 +79,10 @@ fun NavigationGraph(navHostController: NavHostController) {
         ){
             val viewModel: MovieDetailViewModel = hiltViewModel()
             val uiState = viewModel.uiState
-            val getMovieDetail = viewModel::getMovieDetail
+            val onAddFavorite = viewModel::onAddFavorite
             MovieDetailSreen(
-                id = it.arguments?.getInt(Constants.MOVIE_DETAIL_ARGUMENT_KEY),
                 uiState = uiState,
-                getMovieDetail = getMovieDetail
+                onAddFavorite = onAddFavorite
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.raffa.movieapp.core.presentation.navigation
+package com.raffa.movieapp.core.presentation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -7,13 +7,19 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.raffa.movieapp.core.presentation.navigation.BottomNavigationBar
+import com.raffa.movieapp.core.presentation.navigation.DetailScreenNav
+import com.raffa.movieapp.core.presentation.navigation.NavigationGraph
+import com.raffa.movieapp.core.presentation.navigation.currentRoute
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navHostController: NavHostController) {
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navHostController)
+            if (currentRoute(navController = navHostController) != DetailScreenNav.DetailScreen.route){
+                BottomNavigationBar(navController = navHostController)
+            }
         },
         content = { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues)){

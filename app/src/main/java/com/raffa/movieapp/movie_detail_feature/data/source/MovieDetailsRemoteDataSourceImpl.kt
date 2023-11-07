@@ -1,11 +1,12 @@
 package com.raffa.movieapp.movie_detail_feature.data.source
 
 import com.raffa.movieapp.core.data.remote.MovieService
-import com.raffa.movieapp.core.data.remote.response.MovieResponse
 import com.raffa.movieapp.core.domain.model.MovieDetails
+import com.raffa.movieapp.core.domain.model.MoviePaging
 import com.raffa.movieapp.core.paging.MovieSimilarPagingSource
 import com.raffa.movieapp.core.util.toBackdropUrl
 import com.raffa.movieapp.movie_detail_feature.domain.source.MovieDetailsRemoteDataSource
+import com.raffa.movieapp.movie_popular_feature.data.mapper.toMovie
 import javax.inject.Inject
 
 class MovieDetailsRemoteDataSourceImpl @Inject constructor(
@@ -27,8 +28,14 @@ class MovieDetailsRemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getMoviesSimilar(page: Int, movieId: Int): MovieResponse {
-        return service.getMovieSimilar(page = page, movieId = movieId)
+    override suspend fun getMoviesSimilar(page: Int, movieId: Int): MoviePaging {
+        val response = service.getMovieSimilar(page = page, movieId = movieId)
+        return MoviePaging(
+            page = response.page,
+            totalPages = response.totalPages,
+            totalResults = response.totalResults,
+            movies = response.results.map { it.toMovie() }
+        )
     }
 
     override fun getSimilarMoviesPagingSource(movieId: Int): MovieSimilarPagingSource {

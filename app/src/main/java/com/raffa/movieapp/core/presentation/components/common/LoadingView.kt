@@ -1,4 +1,4 @@
-package com.raffa.movieapp.movie_popular_feature.presentation.components.common
+package com.raffa.movieapp.core.presentation.components.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

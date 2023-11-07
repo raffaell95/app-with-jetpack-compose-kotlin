@@ -22,19 +22,16 @@ class MovieSearchPagingSource(
         return try {
             val pageNumber = params.key ?: 1
             val response = remoteDataSource.getSearchMovies(page = pageNumber, query = query)
-            val movies = response.results
+            val movies = response.movies
+            val totalPages = response.totalPages
 
             LoadResult.Page(
-                data = movies.toMovieSearch(),
+                data = movies,
                 prevKey = if(pageNumber == 1) null else pageNumber - 1,
-                nextKey = if(movies.isEmpty()) null else pageNumber + 1
+                nextKey = if(pageNumber == totalPages) null else pageNumber + 1
             )
 
         }catch (exception: Exception){
-            exception.printStackTrace()
-            return LoadResult.Error(exception)
-        }catch (exception: HttpException){
-            exception.printStackTrace()
             return LoadResult.Error(exception)
         }
     }

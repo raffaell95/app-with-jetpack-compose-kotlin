@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.raffa.movieapp.R
+import com.raffa.movieapp.core.presentation.components.common.MovieAppBar
 import com.raffa.movieapp.search_movie_feature.presentation.components.SearchContent
 import com.raffa.movieapp.search_movie_feature.presentation.state.MovieSearchState
 import com.raffa.movieapp.ui.theme.black
@@ -25,13 +26,7 @@ fun MovieSearchScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.search_movies),
-                        color = white)
-                },
-                backgroundColor = black
-            )
+            MovieAppBar(title = R.string.search_movies)
         },
         content = { paddingValues ->
             SearchContent(

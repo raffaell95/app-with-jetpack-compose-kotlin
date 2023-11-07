@@ -22,6 +22,7 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.raffa.movieapp.R
+import com.raffa.movieapp.core.presentation.components.common.AsyncImageUrl
 
 @Composable
 fun MovieItem(
@@ -52,21 +53,13 @@ fun MovieItem(
             elevation = 8.dp
         ) {
             Box {
-
-             AsyncImage(
-                 model = ImageRequest.Builder(LocalContext.current)
-                     .data(imageUrl)
-                     .crossfade(true)
-                     .error(R.drawable.ic_error_image)
-                     .placeholder(R.drawable.ic_placeholder)
-                     .build(),
-                 contentDescription = "",
-                 contentScale = ContentScale.FillHeight,
-                 modifier = Modifier
-                     .fillMaxWidth()
-                     .align(Alignment.BottomCenter)
-                     .background(Color.Black)
-                     .clip(RoundedCornerShape(8.dp))
+                AsyncImageUrl(
+                    imageUrl = imageUrl,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .background(Color.Black)
+                        .clip(RoundedCornerShape(8.dp))
                 )
 
             }

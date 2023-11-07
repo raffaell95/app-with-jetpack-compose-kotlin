@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,8 +23,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.raffa.movieapp.core.domain.model.MovieSearch
 import com.raffa.movieapp.movie_popular_feature.presentation.components.MovieItem
-import com.raffa.movieapp.movie_popular_feature.presentation.components.common.ErrorScreen
-import com.raffa.movieapp.movie_popular_feature.presentation.components.common.LoadingView
+import com.raffa.movieapp.core.presentation.components.common.ErrorScreen
+import com.raffa.movieapp.core.presentation.components.common.LoadingView
 import com.raffa.movieapp.search_movie_feature.presentation.MovieSearchEvent
 import com.raffa.movieapp.ui.theme.black
 
@@ -71,7 +70,7 @@ fun SearchContent(
                 val movie = pagingMovies[index]
                 movie?.let {
                     MovieItem(
-                        voteAverage = it.vodeAverage,
+                        voteAverage = it.voteAverage,
                         imageUrl = it.imageUrl,
                         id = it.id,
                         onClick = {movieId ->

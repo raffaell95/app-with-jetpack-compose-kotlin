@@ -21,21 +21,18 @@ class MoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val pageNumber = params.key ?: 1
-            val response = remoteDataSource.getPopularMovies(page = pageNumber)
+            val moviePaging = remoteDataSource.getPopularMovies(page = pageNumber)
 
-            val movies = response.results
+            val movies = moviePaging.movies
+            val totalPaging = moviePaging.totalPages
 
             LoadResult.Page(
-                data = movies.toMovie(),
+                data = movies,
                 prevKey = if(pageNumber == 1) null else pageNumber - 1,
-                nextKey = if(movies.isEmpty()) null else pageNumber + 1
+                nextKey = if(pageNumber == totalPaging) null else pageNumber + 1
             )
 
         }catch (exception: Exception){
-            exception.printStackTrace()
-            return LoadResult.Error(exception)
-        }catch (exception: HttpException){
-            exception.printStackTrace()
             return LoadResult.Error(exception)
         }
     }

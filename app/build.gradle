@@ -20,7 +20,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+       // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.raffa.movieapp.HiltTestRunner"
 
         buildConfigField "String", "API_KEY", apiKeyProperties['API_KEY']
         buildConfigField "String", "BASE_URL", apiKeyProperties['BASE_URL']
@@ -61,25 +62,53 @@ android {
             option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.8.0'
     implementation platform('androidx.compose:compose-bom:2023.03.00')
-    implementation 'androidx.compose.ui:ui'
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation 'androidx.compose.ui:ui-graphics'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material:material:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2023.03.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+    implementation 'androidx.compose.material:material:1.5.4'
+
+//TESTES
+
+    //truth
+    implementation "com.google.truth:truth:1.1.3"
+
+//Javax Inject
+    implementation "javax.inject:javax.inject:1"
+
+//Hilt
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.45"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.45"
+
+// Unit tests
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+/**/testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+/**/testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+//    testImplementation "org.mockito:mockito-inline:2.28.2"
+    testImplementation "androidx.room:room-testing:2.6.0"
+
+// Instrumentation tests
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
+    androidTestImplementation "com.google.truth:truth:1.1.3"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     // Coil
     implementation "io.coil-kt:coil-compose:2.2.2"
@@ -91,29 +120,30 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Splashscreen
-    implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation "androidx.core:core-splashscreen:1.0.1"
 
     //Gson
-    implementation "com.google.code.gson:gson:2.10"
+    implementation "com.google.code.gson:gson:2.10.1"
 
     // Others - Compose dependencies
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
-    implementation "androidx.compose.material:material-icons-extended:1.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
+    implementation "androidx.compose.material:material-icons-extended:1.5.4"
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation "androidx.navigation:navigation-compose:2.7.5"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.2"
 
     // Paging3
-    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
+    implementation "androidx.paging:paging-runtime-ktx:3.2.1"
+    implementation "androidx.paging:paging-compose:3.3.0-alpha02"
 
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 
     // Coroutine Lifecycle Scopes
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -122,13 +152,13 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
 
     //DI - Hilt
-    implementation "com.google.dagger:hilt-android:2.45"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "com.google.dagger:hilt-android:2.48"
+    implementation "androidx.hilt:hilt-navigation-compose:1.1.0"
     kapt "com.google.dagger:hilt-compiler:2.45"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    kapt "androidx.hilt:hilt-compiler:1.1.0"
 
     //Room
-    implementation "androidx.room:room-ktx:2.4.2"
-    implementation "androidx.room:room-runtime:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-ktx:2.6.0"
+    implementation "androidx.room:room-runtime:2.6.0"
+    kapt "androidx.room:room-compiler:2.6.0"
 }

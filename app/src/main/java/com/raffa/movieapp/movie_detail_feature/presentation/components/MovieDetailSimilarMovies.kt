@@ -12,8 +12,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.raffa.movieapp.core.domain.model.Movie
 import com.raffa.movieapp.movie_popular_feature.presentation.components.MovieItem
-import com.raffa.movieapp.movie_popular_feature.presentation.components.common.ErrorScreen
-import com.raffa.movieapp.movie_popular_feature.presentation.components.common.LoadingView
+import com.raffa.movieapp.core.presentation.components.common.ErrorScreen
+import com.raffa.movieapp.core.presentation.components.common.LoadingView
 
 @Composable
 fun MocieDetailSimilarMovies(
